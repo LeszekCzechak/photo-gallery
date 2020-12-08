@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.czechak.leszek.photogalerybackend.model.gallery.GalleryEntity;
 
 import javax.persistence.*;
 
@@ -19,6 +20,9 @@ public class FileEntity {
     @Lob
     private byte[] bytes;
     private String contentType;
+
+    @ManyToOne
+    private GalleryEntity gallery;
 
 
     public FileEntity(byte[] bytes, String contentType) {

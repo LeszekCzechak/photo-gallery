@@ -5,6 +5,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import pl.czechak.leszek.photogalerybackend.service.UserService;
 
 @Configuration
@@ -22,11 +23,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .cors().disable()
                 .csrf().disable()
+                .httpBasic()
+                .and()
                 .authorizeRequests()
-                .antMatchers("/user/register/**", "/user/login").permitAll()
+                .antMatchers("/user/register").permitAll()
                 .anyRequest()
-                .permitAll();
-//                .authenticated();
+                .authenticated()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         //TODO fix permissions
     }
 

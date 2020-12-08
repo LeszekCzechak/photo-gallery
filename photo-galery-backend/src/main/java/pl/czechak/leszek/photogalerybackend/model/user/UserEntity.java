@@ -21,6 +21,7 @@ public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
     @NotBlank(message = "This field must not be empty")
@@ -37,8 +38,9 @@ public class UserEntity implements UserDetails {
     @Column
     private Set<UserRole> roles = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private GalleryEntity gallery;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id",referencedColumnName = "user_id")
+    private Set<GalleryEntity> galleries;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
