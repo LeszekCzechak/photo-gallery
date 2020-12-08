@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    username: user
+    password: user
+    url: jdbc:mysql://localhost:3306/photo-gallery?serverTimezone=UTC
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
