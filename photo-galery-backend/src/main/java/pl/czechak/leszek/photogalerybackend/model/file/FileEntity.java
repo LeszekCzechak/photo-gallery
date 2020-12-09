@@ -22,24 +22,12 @@ public class FileEntity {
     private String contentType;
 
     @ManyToOne
+    @JsonIgnore
     private GalleryEntity gallery;
 
-
-    public FileEntity(byte[] bytes, String contentType) {
+    public FileEntity(byte[] bytes, String contentType, GalleryEntity gallery) {
         this.bytes = bytes;
         this.contentType = contentType;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    @JsonIgnore
-    public byte[] getBytes() {
-        return bytes;
-    }
-
-    public String getContentType() {
-        return contentType;
+        this.gallery = gallery;
     }
 }

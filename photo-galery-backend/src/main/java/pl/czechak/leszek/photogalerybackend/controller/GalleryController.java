@@ -6,7 +6,7 @@ import pl.czechak.leszek.photogalerybackend.dto.AddGalleryRequest;
 import pl.czechak.leszek.photogalerybackend.model.gallery.GalleryEntity;
 import pl.czechak.leszek.photogalerybackend.service.GalleryService;
 
-import java.util.List;
+
 
 @RestController
 @RequestMapping("/gallery")

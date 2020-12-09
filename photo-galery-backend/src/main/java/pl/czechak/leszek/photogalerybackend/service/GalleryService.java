@@ -1,7 +1,7 @@
 package pl.czechak.leszek.photogalerybackend.service;
 
 import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.dao.PermissionDeniedDataAccessException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.czechak.leszek.photogalerybackend.dto.AddGalleryRequest;
@@ -51,20 +51,18 @@ public class GalleryService {
 
         GalleryEntity galleryEntity = galleryRepository.findById(galleryId)
                 .orElseThrow(() -> new DataAccessResourceFailureException("Can't find gallery"));
-        return galleryEntity;
+
+        UserEntity currentUser = userContext.getCurrentUser();
+
+        Long currentUserId = currentUser.getId();
+        Long galleryUserId = galleryEntity.getUser().getId();
+
+        if((currentUserId.equals(galleryUserId))||(currentUser.getRoles().contains(UserRole.ADMIN))){
+            return galleryEntity;
+        }
+
+        throw new AccessDeniedException("Can't do that");
+
     }
 
-
-    //    private FileEntity getFileEntity(MultipartFile multipartFile) {
-//        byte[] bytes = new byte[0];
-//
-//        try {
-//            bytes = multipartFile.getBytes();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        String contentType = multipartFile.getContentType();
-//        FileEntity file = new FileEntity(bytes, contentType);
-//        return file;
-//    }
 }

@@ -24,10 +24,10 @@ public class GalleryEntity {
     private String galleryName;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     private UserEntity user;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private List<FileEntity> files;
 
 }

@@ -6,16 +6,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.czechak.leszek.photogalerybackend.dto.CreateUserRequest;
-import pl.czechak.leszek.photogalerybackend.model.gallery.GalleryEntity;
 import pl.czechak.leszek.photogalerybackend.model.user.UserEntity;
 import pl.czechak.leszek.photogalerybackend.model.user.UserRole;
 import pl.czechak.leszek.photogalerybackend.repository.GalleryRepository;
 import pl.czechak.leszek.photogalerybackend.repository.UserRepository;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
