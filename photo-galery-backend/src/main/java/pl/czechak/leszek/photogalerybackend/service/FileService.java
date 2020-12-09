@@ -49,6 +49,7 @@ public class FileService {
 
     }
 
+    @Transactional
     public void deleteFile(long id) {
 
         FileEntity fileEntity = fileRepository.findById(id).orElseThrow(

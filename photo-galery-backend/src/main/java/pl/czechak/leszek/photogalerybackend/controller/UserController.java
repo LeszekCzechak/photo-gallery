@@ -2,12 +2,12 @@ package pl.czechak.leszek.photogalerybackend.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.czechak.leszek.photogalerybackend.dto.CreateUserRequest;
+import pl.czechak.leszek.photogalerybackend.dto.UserResponse;
 import pl.czechak.leszek.photogalerybackend.service.UserService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -23,6 +23,18 @@ public class UserController {
     public ResponseEntity<Void> createUser (@RequestBody CreateUserRequest newUser){
         userService.createUser(newUser);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<Void> deleteUser (@PathVariable long userId){
+        userService.deleteUser(userId);
+        return ResponseEntity.ok(null);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<UserResponse>> getAllUsers(){
+        List<UserResponse> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 
 
