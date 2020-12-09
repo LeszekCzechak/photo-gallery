@@ -54,6 +54,12 @@ public class FileService {
         FileEntity fileEntity = fileRepository.findById(id).orElseThrow(
                 NoSuchElementException::new);
 
+        Long galleryId = fileEntity.getGallery().getId();
+        GalleryEntity galleryEntity = galleryRepository.getOne(galleryId);
+        List<FileEntity> files = galleryEntity.getFiles();
+        files.remove(fileEntity);
+        galleryEntity.setFiles(files);
+        galleryRepository.save(galleryEntity);
         fileRepository.delete(fileEntity);
 
     }
