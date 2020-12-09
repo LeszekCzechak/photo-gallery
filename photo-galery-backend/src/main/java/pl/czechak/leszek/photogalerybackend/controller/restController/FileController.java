@@ -1,4 +1,4 @@
-package pl.czechak.leszek.photogalerybackend.controller;
+package pl.czechak.leszek.photogalerybackend.controller.restController;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

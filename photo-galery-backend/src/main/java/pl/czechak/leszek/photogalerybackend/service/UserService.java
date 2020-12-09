@@ -1,5 +1,8 @@
 package pl.czechak.leszek.photogalerybackend.service;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -7,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.czechak.leszek.photogalerybackend.dto.CreateUserRequest;
 import pl.czechak.leszek.photogalerybackend.dto.GalleryResponse;
+import pl.czechak.leszek.photogalerybackend.dto.LoggedUser;
 import pl.czechak.leszek.photogalerybackend.dto.UserResponse;
 import pl.czechak.leszek.photogalerybackend.model.user.UserEntity;
 import pl.czechak.leszek.photogalerybackend.model.user.UserRole;
@@ -88,5 +92,12 @@ public class UserService implements UserDetailsService {
                 })
                 .collect(Collectors.toList());
         return galleryResponses;
+    }
+
+    public LoggedUser checkLoginStatus() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        String username = authentication.getName();
+        return new LoggedUser(username);
     }
 }

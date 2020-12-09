@@ -1,9 +1,10 @@
-package pl.czechak.leszek.photogalerybackend.controller;
+package pl.czechak.leszek.photogalerybackend.controller.restController;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.czechak.leszek.photogalerybackend.dto.CreateUserRequest;
+import pl.czechak.leszek.photogalerybackend.dto.LoggedUser;
 import pl.czechak.leszek.photogalerybackend.dto.UserResponse;
 import pl.czechak.leszek.photogalerybackend.service.UserService;
 
@@ -35,6 +36,11 @@ public class UserController {
     public ResponseEntity<List<UserResponse>> getAllUsers(){
         List<UserResponse> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/check-login-status")
+    public LoggedUser authenticate(){
+        return userService.checkLoginStatus();
     }
 
 
