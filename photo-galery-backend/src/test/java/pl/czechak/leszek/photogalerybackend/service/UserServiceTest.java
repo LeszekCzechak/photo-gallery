@@ -7,14 +7,19 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.czechak.leszek.photogalerybackend.dto.CreateUserRequest;
+import pl.czechak.leszek.photogalerybackend.dto.LoggedUser;
+import pl.czechak.leszek.photogalerybackend.dto.UserResponse;
 import pl.czechak.leszek.photogalerybackend.model.user.UserEntity;
 import pl.czechak.leszek.photogalerybackend.model.user.UserRole;
 import pl.czechak.leszek.photogalerybackend.repository.GalleryRepository;
 import pl.czechak.leszek.photogalerybackend.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -30,6 +35,8 @@ class UserServiceTest {
     private GalleryRepository galleryRepository;
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
+    @Mock
+    private Authentication authentication;
 
     private UserService userService;
 
@@ -116,7 +123,7 @@ class UserServiceTest {
         userService.deleteUser(userId);
 
         //then
-        ArgumentCaptor<UserEntity> argumentCaptor= ArgumentCaptor.forClass(UserEntity.class);
+        ArgumentCaptor<UserEntity> argumentCaptor = ArgumentCaptor.forClass(UserEntity.class);
         Mockito.verify(userRepository).delete(argumentCaptor.capture());
         UserEntity entity = argumentCaptor.getValue();
         assertThat(entity.getUsername()).isEqualTo(username);
@@ -130,11 +137,21 @@ class UserServiceTest {
         //given
 
         //when
+        List<UserResponse> userResponseList = userService.getAllUsers();
         //then
-
+        //TODO: fix this
     }
 
     @Test
-    void checkLoginStatus() {
+    void shouldReturnLoggedUser() {
+
+        //given
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+          when(authentication.getName()).thenReturn("UserTest");
+
+        //when
+        LoggedUser loggedUser = userService.checkLoginStatus();
+        //then
+        assertThat(loggedUser.getUsername()).isEqualTo("UserTest");
     }
 }
