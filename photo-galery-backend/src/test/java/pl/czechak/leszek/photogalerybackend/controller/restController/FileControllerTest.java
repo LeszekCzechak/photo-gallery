@@ -40,6 +40,7 @@ class FileControllerTest {
     private FileRepository fileRepository;
     @MockBean
     private UserService userService;
+
     @Test
     @WithMockUser(username = "user", roles = "ADMIN")
     void shouldPassMultipartFileToFIleService() throws Exception {
