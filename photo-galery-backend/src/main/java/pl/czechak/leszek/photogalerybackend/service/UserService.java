@@ -76,6 +76,15 @@ public class UserService implements UserDetailsService {
                     UserResponse userResponse = new UserResponse();
                     userResponse.setUserId(userEntity.getId());
                     userResponse.setUsername(userEntity.getUsername());
+
+                    userEntity.getGalleries().stream().map(galleryEntity -> {
+                        GalleryResponse galleryResponse = new GalleryResponse(
+                                galleryEntity.getId(), galleryEntity.getGalleryName(), galleryEntity.getFiles().size());
+                        return galleryResponse;
+                    })
+                            .collect(Collectors.toList());
+
+
                     userResponse.setGalleries(galleryResponses);
 
                     return userResponse;

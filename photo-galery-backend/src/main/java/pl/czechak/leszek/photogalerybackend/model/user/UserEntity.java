@@ -38,7 +38,7 @@ public class UserEntity implements UserDetails {
     @Column
     private Set<UserRole> roles = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id",referencedColumnName = "user_id")
     private Set<GalleryEntity> galleries;
 

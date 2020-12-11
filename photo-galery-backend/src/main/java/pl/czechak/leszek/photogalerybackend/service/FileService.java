@@ -40,11 +40,8 @@ public class FileService {
                 () -> new NoSuchElementException()
         );
 
-        FileEntity fileEntity = new FileEntity(bytes, contentType, galleryEntity);
-        List<FileEntity> files = galleryEntity.getFiles();
-        files.add(fileEntity);
-        galleryEntity.setFiles(files);
-        fileRepository.save(fileEntity);
+        FileEntity fileEntity = new FileEntity(bytes, contentType,galleryEntity);
+        galleryEntity.getFiles().add(fileEntity);
         galleryRepository.save(galleryEntity);
 
     }

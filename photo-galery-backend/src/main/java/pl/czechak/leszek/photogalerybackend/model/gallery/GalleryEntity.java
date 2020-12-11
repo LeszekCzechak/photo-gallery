@@ -27,7 +27,7 @@ public class GalleryEntity {
     @ManyToOne()
     private UserEntity user;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FileEntity> files;
 
 }
