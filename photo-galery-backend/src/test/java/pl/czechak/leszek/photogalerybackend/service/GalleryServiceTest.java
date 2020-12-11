@@ -91,4 +91,18 @@ class GalleryServiceTest {
         assertThat(gallery.getUser().getUsername()).isEqualTo(username);
 
     }
+
+    @Test
+    void deleteGalleryById() {
+        //given
+        long galleryId = 23L;
+        //when
+        galleryService.deleteGalleryById(galleryId);
+        //then
+        ArgumentCaptor<Long> argumentCaptor= ArgumentCaptor.forClass(Long.class);
+        Mockito.verify(galleryRepository).deleteById(argumentCaptor.capture());
+        Long argumentCaptorValue = argumentCaptor.getValue();
+
+        assertThat(argumentCaptorValue.longValue()).isEqualTo(galleryId);
+    }
 }

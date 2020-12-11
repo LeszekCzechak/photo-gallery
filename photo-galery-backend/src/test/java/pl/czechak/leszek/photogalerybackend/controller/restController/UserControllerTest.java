@@ -61,7 +61,6 @@ class UserControllerTest {
     }
 
     @Test
-
     @WithMockUser(username = "user", roles = "ADMIN")
     void shouldPassToDeleteUser() throws Exception {
         long userId = 73L;

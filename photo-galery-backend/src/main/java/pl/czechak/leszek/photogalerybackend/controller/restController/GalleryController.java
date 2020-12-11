@@ -29,4 +29,10 @@ public class GalleryController {
         return ResponseEntity.ok(gallery);
     }
 
+    @DeleteMapping("/delete/{galleryId}")
+    public ResponseEntity<Void> deleteGalleryById(@PathVariable long galleryId){
+        galleryService.deleteGalleryById(galleryId);
+        return ResponseEntity.ok(null);
+    }
+
 }

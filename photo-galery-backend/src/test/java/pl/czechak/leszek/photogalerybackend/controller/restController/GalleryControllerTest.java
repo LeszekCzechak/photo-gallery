@@ -19,6 +19,7 @@ import pl.czechak.leszek.photogalerybackend.service.UserService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -78,5 +79,16 @@ class GalleryControllerTest {
 
         assertThat(argumentCaptorValue.longValue()).isEqualTo(galleryId);
 
+    }
+
+    @Test
+    @WithMockUser(username = "user", roles = "ADMIN")
+    void shouldPassGalleryIdToDeleteGalleryById() throws Exception {
+
+        long galleryId= 48L;
+
+        mockMvc.perform((delete("/gallery/delete/"+galleryId)))
+                .andExpect(status().isOk());
+        Mockito.verify(galleryService).deleteGalleryById(galleryId);
     }
 }
