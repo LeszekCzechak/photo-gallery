@@ -93,7 +93,6 @@ class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = "ADMIN")
     void shouldCheckLoginStatus() throws Exception {
 
         LoggedUser loggedUser= new LoggedUser("TestUsername");
