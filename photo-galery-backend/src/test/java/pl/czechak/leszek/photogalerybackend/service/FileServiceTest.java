@@ -75,7 +75,7 @@ class FileServiceTest {
         //given
         long fileId = 999L;
         byte[] bytes = new byte[]{};
-        String contentType = "jpeg";
+        String contentType = "text/plain";
 
         long galleryId = 22L;
         String galleryName = "GalleryName";

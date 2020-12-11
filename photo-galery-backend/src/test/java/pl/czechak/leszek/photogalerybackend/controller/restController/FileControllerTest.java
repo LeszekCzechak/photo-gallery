@@ -14,14 +14,19 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.multipart.MultipartFile;
 import pl.czechak.leszek.photogalerybackend.configuration.security.EncryptorConfiguration;
 import pl.czechak.leszek.photogalerybackend.configuration.security.SecurityConfiguration;
+import pl.czechak.leszek.photogalerybackend.model.file.FileEntity;
 import pl.czechak.leszek.photogalerybackend.repository.FileRepository;
 import pl.czechak.leszek.photogalerybackend.service.FileService;
 import pl.czechak.leszek.photogalerybackend.service.UserService;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -60,5 +65,26 @@ class FileControllerTest {
         mockMvc.perform(delete("/files/1"))
                 .andExpect(status().isOk());
         verify(fileService).deleteFile(1);
+    }
+
+
+    @Test
+    @WithMockUser(username = "user", roles = "ADMIN")
+    void shouldReturnFileById() throws Exception {
+        //given
+        long fileId= 65L;
+        byte[] bytes = new byte[]{123};
+        String contentType = "text/plain";
+
+        FileEntity fileEntity = new FileEntity(fileId, bytes,contentType, null);
+
+        when(fileRepository.findById(fileId)).thenReturn(Optional.of(fileEntity));
+
+        //when //then
+        mockMvc.perform(get("/files/"+fileId))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+
     }
 }
