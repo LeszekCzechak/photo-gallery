@@ -2,6 +2,8 @@ package pl.czechak.leszek.photogalerybackend.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import pl.czechak.leszek.photogalerybackend.exception.FileNotFoundException;
+import pl.czechak.leszek.photogalerybackend.exception.GalleryNotFoundException;
 import pl.czechak.leszek.photogalerybackend.model.file.FileEntity;
 import pl.czechak.leszek.photogalerybackend.model.gallery.GalleryEntity;
 import pl.czechak.leszek.photogalerybackend.repository.FileRepository;
@@ -10,7 +12,6 @@ import pl.czechak.leszek.photogalerybackend.repository.GalleryRepository;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class FileService {
@@ -37,7 +38,7 @@ public class FileService {
         String contentType = multipartFile.getContentType();
 
         GalleryEntity galleryEntity = galleryRepository.findById(galleryId).orElseThrow(
-                () -> new NoSuchElementException()
+                () -> new GalleryNotFoundException("Can't find gallery")
         );
 
         FileEntity fileEntity = new FileEntity(bytes, contentType,galleryEntity);
@@ -50,7 +51,7 @@ public class FileService {
     public void deleteFile(long id) {
 
         FileEntity fileEntity = fileRepository.findById(id).orElseThrow(
-                NoSuchElementException::new);
+                ()-> new FileNotFoundException("Can't find file"));
 
         Long galleryId = fileEntity.getGallery().getId();
         GalleryEntity galleryEntity = galleryRepository.getOne(galleryId);

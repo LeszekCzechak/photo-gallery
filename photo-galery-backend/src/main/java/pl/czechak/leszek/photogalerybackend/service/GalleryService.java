@@ -5,6 +5,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.czechak.leszek.photogalerybackend.dto.AddGalleryRequest;
+import pl.czechak.leszek.photogalerybackend.exception.GalleryNotFoundException;
 import pl.czechak.leszek.photogalerybackend.model.gallery.GalleryEntity;
 import pl.czechak.leszek.photogalerybackend.model.user.UserEntity;
 import pl.czechak.leszek.photogalerybackend.model.user.UserRole;
@@ -50,7 +51,7 @@ public class GalleryService {
     public GalleryEntity getGalleryById(long galleryId) {
 
         GalleryEntity galleryEntity = galleryRepository.findById(galleryId)
-                .orElseThrow(() -> new DataAccessResourceFailureException("Can't find gallery"));
+                .orElseThrow(() -> new GalleryNotFoundException("Can't find gallery"));
 
         UserEntity currentUser = userContext.getCurrentUser();
 
