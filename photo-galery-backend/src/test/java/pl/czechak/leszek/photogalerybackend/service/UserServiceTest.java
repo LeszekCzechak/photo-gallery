@@ -52,7 +52,7 @@ class UserServiceTest {
         //given
         String username = "UserTest";
         String password = "password";
-        UserEntity userEntity = new UserEntity(1L, "UserTest", password, Set.of(UserRole.USER, UserRole.ADMIN), null);
+        UserEntity userEntity = new UserEntity(1L, username, password, Set.of(UserRole.USER, UserRole.ADMIN), null);
 
         Optional<UserEntity> optionalUserEntity = Optional.of(userEntity);
 
