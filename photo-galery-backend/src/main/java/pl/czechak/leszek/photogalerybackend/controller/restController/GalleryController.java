@@ -18,7 +18,7 @@ public class GalleryController {
         this.galleryService = galleryService;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<GalleryEntity> createGallery(@RequestBody AddGalleryRequest galleryRequest) {
         return ResponseEntity.ok(galleryService.createGallery(galleryRequest));
     }
@@ -29,10 +29,10 @@ public class GalleryController {
         return ResponseEntity.ok(gallery);
     }
 
-    @DeleteMapping("/delete/{galleryId}")
+    @DeleteMapping("/{galleryId}")
     public ResponseEntity<Void> deleteGalleryById(@PathVariable long galleryId){
         galleryService.deleteGalleryById(galleryId);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.noContent().build();
     }
 
 }

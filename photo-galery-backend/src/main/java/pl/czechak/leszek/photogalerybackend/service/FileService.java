@@ -3,6 +3,7 @@ package pl.czechak.leszek.photogalerybackend.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pl.czechak.leszek.photogalerybackend.exception.FileNotFoundException;
+import pl.czechak.leszek.photogalerybackend.exception.InvalidFileContentException;
 import pl.czechak.leszek.photogalerybackend.exception.GalleryNotFoundException;
 import pl.czechak.leszek.photogalerybackend.model.file.FileEntity;
 import pl.czechak.leszek.photogalerybackend.model.gallery.GalleryEntity;
@@ -28,12 +29,12 @@ public class FileService {
     @Transactional
     public void addFileToGallery(long galleryId, MultipartFile multipartFile) {
 
-        byte[] bytes = new byte[0];
+        byte[] bytes;
 
         try {
             bytes = multipartFile.getBytes();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new InvalidFileContentException();
         }
         String contentType = multipartFile.getContentType();
 
@@ -57,9 +58,12 @@ public class FileService {
         GalleryEntity galleryEntity = galleryRepository.getOne(galleryId);
         List<FileEntity> files = galleryEntity.getFiles();
         files.remove(fileEntity);
-        galleryEntity.setFiles(files);
-        galleryRepository.save(galleryEntity);
         fileRepository.delete(fileEntity);
 
     }
-}
+
+    public FileEntity getFileEntity(long id) {
+        FileEntity file = fileRepository.findById(id)
+                .orElseThrow();
+        return file;
+    }}

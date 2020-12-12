@@ -21,16 +21,16 @@ class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    @Sql(statements = "INSERT INTO user_entity(user_id,password,username) VALUES (99,'$2a$10$flwjx8Bqss5SNktHaTFyIuuSpvBrAj8sEDpURwdjq1UgUrzeQh/la','admin')")
+    @Sql(statements = "INSERT INTO user_entity(user_id,password,username) VALUES (996,'$2a$10$flwjx8Bqss5SNktHaTFyIuuSpvBrAj8sEDpURwdjq1UgUrzeQh/la','adminTest')")
     void shouldFindOptionalOfUserEntityByUsername(){
 
-        Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByUsername("admin");
+        Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByUsername("adminTest");
 
-        assertEquals(99,optionalUserEntity.get().getId());
-        assertEquals("admin",optionalUserEntity.get().getUsername());
+        assertEquals(996,optionalUserEntity.get().getId());
+        assertEquals("adminTest",optionalUserEntity.get().getUsername());
 
         //AssertJ usage
-        assertThat(optionalUserEntity.get().getId()).isEqualTo(99);
+        assertThat(optionalUserEntity.get().getId()).isEqualTo(996);
 
     }
 

@@ -10,8 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import pl.czechak.leszek.photogalerybackend.configuration.security.EncryptorConfiguration;
-import pl.czechak.leszek.photogalerybackend.configuration.security.SecurityConfiguration;
+import pl.czechak.leszek.photogalerybackend.configuration.security.EncryptorConfig;
+import pl.czechak.leszek.photogalerybackend.configuration.security.SecurityConfig;
 import pl.czechak.leszek.photogalerybackend.dto.AddGalleryRequest;
 import pl.czechak.leszek.photogalerybackend.model.gallery.GalleryEntity;
 import pl.czechak.leszek.photogalerybackend.service.GalleryService;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(value = GalleryController.class, excludeAutoConfiguration = {SecurityConfiguration.class, EncryptorConfiguration.class})
+@WebMvcTest(value = GalleryController.class, excludeAutoConfiguration = {SecurityConfig.class, EncryptorConfig.class})
 class GalleryControllerTest {
 
     @Autowired
@@ -31,6 +31,7 @@ class GalleryControllerTest {
 
     @MockBean
     private GalleryService galleryService;
+
     @MockBean
     private UserService userService;
 
@@ -43,7 +44,7 @@ class GalleryControllerTest {
                 "    \"userId\": 72\n" +
                 "}";
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/gallery/create")
+        mockMvc.perform(MockMvcRequestBuilders.post("/gallery/")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(galleryRequest))
                 .andDo(print())
@@ -87,7 +88,7 @@ class GalleryControllerTest {
 
         long galleryId= 48L;
 
-        mockMvc.perform((delete("/gallery/delete/"+galleryId)))
+        mockMvc.perform((delete("/gallery/"+galleryId)))
                 .andExpect(status().isOk());
         Mockito.verify(galleryService).deleteGalleryById(galleryId);
     }

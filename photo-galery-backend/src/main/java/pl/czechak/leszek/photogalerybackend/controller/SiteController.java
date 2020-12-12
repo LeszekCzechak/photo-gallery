@@ -22,7 +22,4 @@ public class SiteController {
 
          return "login";
     }
-
-
-
 }

@@ -9,8 +9,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import pl.czechak.leszek.photogalerybackend.configuration.security.EncryptorConfiguration;
-import pl.czechak.leszek.photogalerybackend.configuration.security.SecurityConfiguration;
+import pl.czechak.leszek.photogalerybackend.configuration.security.EncryptorConfig;
+import pl.czechak.leszek.photogalerybackend.configuration.security.SecurityConfig;
 import pl.czechak.leszek.photogalerybackend.dto.CreateUserRequest;
 import pl.czechak.leszek.photogalerybackend.dto.LoggedUser;
 import pl.czechak.leszek.photogalerybackend.dto.UserResponse;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(value = UserController.class, excludeAutoConfiguration = {SecurityConfiguration.class, EncryptorConfiguration.class})
+@WebMvcTest(value = UserController.class, excludeAutoConfiguration = {SecurityConfig.class, EncryptorConfig.class})
 class UserControllerTest {
 
     @Autowired
@@ -65,7 +65,7 @@ class UserControllerTest {
     void shouldPassToDeleteUser() throws Exception {
         long userId = 73L;
 
-        mockMvc.perform(delete("/user/delete/" + userId))
+        mockMvc.perform(delete("/user/" + userId))
                 .andExpect(status().isOk());
         Mockito.verify(userService).deleteUser(userId);
     }

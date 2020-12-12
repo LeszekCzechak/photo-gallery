@@ -21,8 +21,8 @@ class GalleryRepositoryTest {
 
     @Test
     @Sql(statements = {
-            "INSERT INTO user_entity(user_id,password,username) VALUES (99,'$2a$10$flwjx8Bqss5SNktHaTFyIuuSpvBrAj8sEDpURwdjq1UgUrzeQh/la','admin')",
-            "INSERT INTO gallery_entity(id,gallery_name,user_user_id,user_id) values (1,'galleryName',99,null)"
+            "INSERT INTO user_entity(user_id,password,username) VALUES (99,'$2a$10$flwjx8Bqss5SNktHaTFyIuuSpvBrAj8sEDpURwdjq1UgUrzeQh/la','TESTadmin')",
+            "INSERT INTO gallery_entity(id,gallery_name,user_user_id) values (615,'galleryName',99)"
     })
     void shouldFindGalleryEntitiesByUserId() {
 
@@ -32,6 +32,6 @@ class GalleryRepositoryTest {
 
         //then
         assertEquals("galleryName",galleryEntityList.get(0).getGalleryName());
-        assertEquals("admin",galleryEntityList.get(0).getUser().getUsername());
+        assertEquals("TESTadmin",galleryEntityList.get(0).getUser().getUsername());
     }
 }

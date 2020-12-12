@@ -1,6 +1,5 @@
 package pl.czechak.leszek.photogalerybackend.service;
 
-import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -58,7 +57,10 @@ public class GalleryService {
         Long currentUserId = currentUser.getId();
         Long galleryUserId = galleryEntity.getUser().getId();
 
-        if((currentUserId.equals(galleryUserId))||(currentUser.getRoles().contains(UserRole.ADMIN))){
+        boolean isOwner = currentUserId.equals(galleryUserId);
+        boolean isAdmin = currentUser.getRoles().contains(UserRole.ADMIN);
+
+        if(isOwner || isAdmin){
             return galleryEntity;
         }
 

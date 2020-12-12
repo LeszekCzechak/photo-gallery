@@ -12,14 +12,11 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.multipart.MultipartFile;
-import pl.czechak.leszek.photogalerybackend.configuration.security.EncryptorConfiguration;
-import pl.czechak.leszek.photogalerybackend.configuration.security.SecurityConfiguration;
+import pl.czechak.leszek.photogalerybackend.configuration.security.EncryptorConfig;
+import pl.czechak.leszek.photogalerybackend.configuration.security.SecurityConfig;
 import pl.czechak.leszek.photogalerybackend.model.file.FileEntity;
-import pl.czechak.leszek.photogalerybackend.repository.FileRepository;
 import pl.czechak.leszek.photogalerybackend.service.FileService;
 import pl.czechak.leszek.photogalerybackend.service.UserService;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
@@ -30,14 +27,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(value = FileController.class, excludeAutoConfiguration = {SecurityConfiguration.class, EncryptorConfiguration.class})
+@WebMvcTest(value = FileController.class, excludeAutoConfiguration = {SecurityConfig.class, EncryptorConfig.class})
 class FileControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
     private FileService fileService;
-    @MockBean
-    private FileRepository fileRepository;
     @MockBean
     private UserService userService;
 
@@ -79,7 +74,7 @@ class FileControllerTest {
 
         FileEntity fileEntity = new FileEntity(fileId, bytes,contentType, null);
 
-        when(fileRepository.findById(fileId)).thenReturn(Optional.of(fileEntity));
+        when(fileService.getFileEntity(fileId)).thenReturn(fileEntity);
 
         //when //then
         mockMvc.perform(get("/files/"+fileId))

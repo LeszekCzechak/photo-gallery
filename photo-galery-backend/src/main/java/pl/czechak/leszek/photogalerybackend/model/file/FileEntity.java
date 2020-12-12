@@ -21,7 +21,7 @@ public class FileEntity {
     private byte[] bytes;
     private String contentType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private GalleryEntity gallery;
 

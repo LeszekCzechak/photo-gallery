@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface GalleryRepository extends JpaRepository<GalleryEntity,Long> {
 
-    public List<GalleryEntity> findAllByUser_Id(Long id);
-
+   List<GalleryEntity> findAllByUser_Id(Long id);
+   //https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods.query-property-expressions
 }

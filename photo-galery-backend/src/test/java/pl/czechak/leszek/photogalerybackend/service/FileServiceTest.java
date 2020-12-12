@@ -79,21 +79,26 @@ class FileServiceTest {
 
         long galleryId = 22L;
         String galleryName = "GalleryName";
-        GalleryEntity galleryEntity = new GalleryEntity(galleryId, galleryName, null, new ArrayList<FileEntity>());
+        ArrayList<FileEntity> files = new ArrayList<>();
+        GalleryEntity galleryEntity = new GalleryEntity(galleryId, galleryName, null, files);
         FileEntity fileEntity = new FileEntity(fileId, bytes,contentType, galleryEntity);
+        files.add(fileEntity);
 
         when(fileRepository.findById(fileId)).thenReturn(Optional.of(fileEntity));
         when(galleryRepository.getOne(galleryId)).thenReturn(galleryEntity);
 
         //when
         fileService.deleteFile(fileId);
-        //then
-        ArgumentCaptor<GalleryEntity> galleryEntityArgumentCaptor= ArgumentCaptor.forClass(GalleryEntity.class);
-        Mockito.verify(galleryRepository).save(galleryEntityArgumentCaptor.capture());
-        GalleryEntity galleryEntityArgumentCaptorValue = galleryEntityArgumentCaptor.getValue();
 
-        assertThat(galleryEntityArgumentCaptorValue.getGalleryName()).isEqualTo(galleryName);
-        assertThat(galleryEntityArgumentCaptorValue.getId()).isEqualTo(galleryId);
+        //then
+        ArgumentCaptor<FileEntity> argumentCaptor = ArgumentCaptor.forClass(FileEntity.class);
+        Mockito.verify(fileRepository).delete(argumentCaptor.capture());
+        FileEntity argumentCaptorValue = argumentCaptor.getValue();
+
+        assertThat(argumentCaptorValue.getId()).isEqualTo(fileId);
+        assertThat(argumentCaptorValue.getContentType()).isEqualTo(contentType);
+        assertThat(argumentCaptorValue.getGallery().getGalleryName()).isEqualTo(galleryName);
+        assertThat(argumentCaptorValue.getGallery().getId()).isEqualTo(galleryId);
 
     }
 }

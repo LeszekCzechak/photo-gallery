@@ -24,7 +24,7 @@ public class GalleryEntity {
     private String galleryName;
 
     @JsonIgnore
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity user;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

@@ -1,6 +1,8 @@
 package pl.czechak.leszek.photogalerybackend.configuration.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -10,11 +12,12 @@ import pl.czechak.leszek.photogalerybackend.service.UserService;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
 
-    public SecurityConfiguration(UserService userService) {
+    @Autowired
+    public SecurityConfig(UserService userService) {
         this.userService = userService;
     }
 
@@ -27,9 +30,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/user/register","/user/check-login-status","/login").permitAll()
-                .antMatchers("/gallery/create","/files/**","/user/delete/**", "/user/all", "/gallery/delete/**").hasRole("ADMIN")
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/files/**","/user/all").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/gallery/*" ).hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/gallery/*" ).hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/user/*" ).hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
