@@ -7,7 +7,6 @@ import pl.czechak.leszek.photogalerybackend.model.gallery.GalleryEntity;
 import pl.czechak.leszek.photogalerybackend.service.GalleryService;
 
 
-
 @RestController
 @RequestMapping("/gallery")
 public class GalleryController {
@@ -30,7 +29,7 @@ public class GalleryController {
     }
 
     @DeleteMapping("/{galleryId}")
-    public ResponseEntity<Void> deleteGalleryById(@PathVariable long galleryId){
+    public ResponseEntity<Void> deleteGalleryById(@PathVariable long galleryId) {
         galleryService.deleteGalleryById(galleryId);
         return ResponseEntity.noContent().build();
     }

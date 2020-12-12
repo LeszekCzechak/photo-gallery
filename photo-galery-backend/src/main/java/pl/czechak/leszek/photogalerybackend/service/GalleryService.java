@@ -35,7 +35,7 @@ public class GalleryService {
     public GalleryEntity createGallery(AddGalleryRequest galleryRequest) {
 
         UserEntity userEntity = userRepository.findById(galleryRequest.getUserId())
-                .orElseThrow(()-> new UsernameNotFoundException("can't find user"));
+                .orElseThrow(() -> new UsernameNotFoundException("can't find user"));
 
         GalleryEntity newGallery = new GalleryEntity();
         newGallery.setGalleryName(galleryRequest.getGalleryName());
@@ -60,11 +60,11 @@ public class GalleryService {
         boolean isOwner = currentUserId.equals(galleryUserId);
         boolean isAdmin = currentUser.getRoles().contains(UserRole.ADMIN);
 
-        if(isOwner || isAdmin){
+        if (isOwner || isAdmin) {
             return galleryEntity;
         }
 
-        throw new AccessDeniedException("Can't do that");
+        throw new AccessDeniedException("No required permissions");
 
     }
 

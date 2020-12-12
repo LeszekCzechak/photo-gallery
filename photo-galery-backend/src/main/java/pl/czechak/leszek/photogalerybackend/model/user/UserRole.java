@@ -8,6 +8,6 @@ public enum UserRole implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return "ROLE_"+this.name();
+        return "ROLE_" + this.name();
     }
 }

@@ -77,11 +77,13 @@ public class UserService implements UserDetailsService {
                     userResponse.setUserId(userEntity.getId());
                     userResponse.setUsername(userEntity.getUsername());
 
-                    userEntity.getGalleries().stream().map(galleryEntity -> {
-                        GalleryResponse galleryResponse = new GalleryResponse(
-                                galleryEntity.getId(), galleryEntity.getGalleryName(), galleryEntity.getFiles().size());
-                        return galleryResponse;
-                    })
+                    userEntity.getGalleries()
+                            .stream()
+                            .map(galleryEntity -> {
+                                GalleryResponse galleryResponse = new GalleryResponse(
+                                        galleryEntity.getId(), galleryEntity.getGalleryName(), galleryEntity.getFiles().size());
+                                return galleryResponse;
+                            })
                             .collect(Collectors.toList());
 
 

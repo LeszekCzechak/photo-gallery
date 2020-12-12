@@ -7,8 +7,8 @@ import pl.czechak.leszek.photogalerybackend.model.gallery.GalleryEntity;
 import java.util.List;
 
 @Repository
-public interface GalleryRepository extends JpaRepository<GalleryEntity,Long> {
+public interface GalleryRepository extends JpaRepository<GalleryEntity, Long> {
 
-   List<GalleryEntity> findAllByUser_Id(Long id);
-   //https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods.query-property-expressions
+    List<GalleryEntity> findAllByUser_Id(Long id);
+    //https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods.query-property-expressions
 }

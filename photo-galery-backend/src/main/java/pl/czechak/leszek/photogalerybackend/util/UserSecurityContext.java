@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import pl.czechak.leszek.photogalerybackend.model.user.UserEntity;
 
 @Component
-public class UserSecurityContext  implements UserContext{
+public class UserSecurityContext implements UserContext {
     @Override
     public UserEntity getCurrentUser() {
         SecurityContext context = SecurityContextHolder.getContext();

@@ -1,8 +1,8 @@
 package pl.czechak.leszek.photogalerybackend.exception;
 
-public class FileNotFoundException extends PhotoGalleryException{
+public class FileNotFoundException extends PhotoGalleryException {
 
-    public FileNotFoundException (String message){
+    public FileNotFoundException(String message) {
         super(message);
     }
 }

@@ -21,25 +21,25 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> createUser (@RequestBody CreateUserRequest newUser){
+    public ResponseEntity<Void> createUser(@RequestBody CreateUserRequest newUser) {
         userService.createUser(newUser);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser (@PathVariable long userId){
+    public ResponseEntity<Void> deleteUser(@PathVariable long userId) {
         userService.deleteUser(userId);
         return ResponseEntity.ok(null);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserResponse>> getAllUsers(){
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
         List<UserResponse> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/check-login-status")
-    public LoggedUser authenticate(){
+    public LoggedUser authenticate() {
         return userService.checkLoginStatus();
     }
 

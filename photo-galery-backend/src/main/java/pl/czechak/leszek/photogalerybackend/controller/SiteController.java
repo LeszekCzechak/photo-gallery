@@ -18,8 +18,8 @@ public class SiteController {
     @GetMapping("/login")
     public String login(Model model) {
         LoggedUser loggedUser = userService.checkLoginStatus();
-            model.addAttribute("loggedUser",loggedUser);
+        model.addAttribute("loggedUser", loggedUser);
 
-         return "login";
+        return "login";
     }
 }
