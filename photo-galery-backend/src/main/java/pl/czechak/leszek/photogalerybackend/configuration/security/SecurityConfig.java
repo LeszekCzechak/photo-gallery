@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/register", "/user/check-login-status", "/login").permitAll()
+                .antMatchers("/user/register", "/user/check-login-status", "/check-user").permitAll()
                 .antMatchers("/files/**", "/user/all").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/gallery/*").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/gallery/*").hasRole("ADMIN")

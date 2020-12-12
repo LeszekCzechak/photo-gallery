@@ -89,7 +89,7 @@ class GalleryControllerTest {
         long galleryId= 48L;
 
         mockMvc.perform((delete("/gallery/"+galleryId)))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
         Mockito.verify(galleryService).deleteGalleryById(galleryId);
     }
 }

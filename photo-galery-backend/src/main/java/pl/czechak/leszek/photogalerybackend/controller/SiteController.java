@@ -15,11 +15,11 @@ public class SiteController {
         this.userService = userService;
     }
 
-    @GetMapping("/login")
+    @GetMapping("/check-user")
     public String login(Model model) {
         LoggedUser loggedUser = userService.checkLoginStatus();
         model.addAttribute("loggedUser", loggedUser);
 
-        return "login";
+        return "checkUser";
     }
 }

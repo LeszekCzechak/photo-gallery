@@ -48,7 +48,7 @@ class FileControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.multipart("/files/1")
                 .file(multipartFile))
                 .andDo((print()))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
         ArgumentCaptor<MultipartFile> captor = ArgumentCaptor.forClass(MultipartFile.class);
         verify(fileService).addFileToGallery(eq(1L), captor.capture());
         assertEquals("multipartFile", captor.getValue().getName());
