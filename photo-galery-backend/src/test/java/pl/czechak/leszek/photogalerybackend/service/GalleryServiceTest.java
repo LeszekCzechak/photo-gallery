@@ -51,21 +51,24 @@ class GalleryServiceTest {
         long userId = 99L;
         AddGalleryRequest galleryRequest = new AddGalleryRequest(requestGalleryName, userId);
         String username = "UserTest";
-        UserEntity userEntity = new UserEntity(userId, username, "password", Set.of(UserRole.USER, UserRole.ADMIN), null);
+        UserEntity userEntity = new UserEntity(userId, username, "password", Set.of(UserRole.USER, UserRole.ADMIN), new ArrayList<>());
         Optional<UserEntity> optionalUserEntity = Optional.of(userEntity);
 
         when(userRepository.findById(userId)).thenReturn(optionalUserEntity);
 
         //when
-        galleryService.createGallery(galleryRequest);
+        GalleryEntity gallery = galleryService.createGallery(galleryRequest);
         //then
 
-        ArgumentCaptor<GalleryEntity> argumentCaptor = ArgumentCaptor.forClass(GalleryEntity.class);
-        Mockito.verify(galleryRepository).save(argumentCaptor.capture());
-        GalleryEntity galleryEntity = argumentCaptor.getValue();
+        ArgumentCaptor<UserEntity> argumentCaptor = ArgumentCaptor.forClass(UserEntity.class);
+        Mockito.verify(userRepository).save(argumentCaptor.capture());
+        UserEntity argumentCaptorValue = argumentCaptor.getValue();
 
-        assertThat(galleryEntity.getGalleryName()).isEqualTo(requestGalleryName);
-        assertThat(galleryEntity.getUser().getId()).isEqualTo(userId);
+        assertThat(gallery.getGalleryName()).isEqualTo(requestGalleryName);
+        assertThat(gallery.getUser().getId()).isEqualTo(userId);
+
+        assertThat(argumentCaptorValue.getUsername()).isEqualTo(username);
+        assertThat(argumentCaptorValue.getGalleries().size()).isEqualTo(1);
 
     }
 
@@ -95,14 +98,27 @@ class GalleryServiceTest {
     @Test
     void deleteGalleryById() {
         //given
+        Long userId = 997L;
+        String username = "UserTesting";
+        String password = "password";
+        UserEntity userEntity = new UserEntity(userId, username, password, Set.of(UserRole.USER, UserRole.ADMIN), new ArrayList<>());
         long galleryId = 23L;
+        String galleryName = "GalleryName";
+        ArrayList<FileEntity> files = new ArrayList<>();
+        GalleryEntity galleryEntity = new GalleryEntity(galleryId, galleryName, userEntity, files);
+        userEntity.getGalleries().add(galleryEntity);
+
+        when(galleryRepository.findById(galleryId)).thenReturn(Optional.of(galleryEntity));
+        when(userRepository.findById(userId)).thenReturn(Optional.of(userEntity));
+
         //when
         galleryService.deleteGalleryById(galleryId);
         //then
-        ArgumentCaptor<Long> argumentCaptor= ArgumentCaptor.forClass(Long.class);
-        Mockito.verify(galleryRepository).deleteById(argumentCaptor.capture());
-        Long argumentCaptorValue = argumentCaptor.getValue();
+        ArgumentCaptor<GalleryEntity> argumentCaptor= ArgumentCaptor.forClass(GalleryEntity.class);
+        Mockito.verify(galleryRepository).delete(argumentCaptor.capture());
+        GalleryEntity argumentCaptorValue = argumentCaptor.getValue();
 
-        assertThat(argumentCaptorValue.longValue()).isEqualTo(galleryId);
+        assertThat(argumentCaptorValue.getGalleryName()).isEqualTo(galleryName);
+        assertThat(argumentCaptorValue.getId()).isEqualTo(galleryId);
     }
 }

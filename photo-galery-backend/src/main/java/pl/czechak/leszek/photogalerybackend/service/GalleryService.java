@@ -14,7 +14,9 @@ import pl.czechak.leszek.photogalerybackend.repository.UserRepository;
 import pl.czechak.leszek.photogalerybackend.util.UserContext;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GalleryService {
@@ -37,12 +39,10 @@ public class GalleryService {
         UserEntity userEntity = userRepository.findById(galleryRequest.getUserId())
                 .orElseThrow(() -> new UsernameNotFoundException("can't find user"));
 
-        GalleryEntity newGallery = new GalleryEntity();
-        newGallery.setGalleryName(galleryRequest.getGalleryName());
-        newGallery.setFiles(List.of());
-        newGallery.setUser(userEntity);
-
-        return galleryRepository.save(newGallery);
+        GalleryEntity newGallery = new GalleryEntity(galleryRequest.getGalleryName(), userEntity,new ArrayList<>());
+        userEntity.getGalleries().add(newGallery);
+        userRepository.save(userEntity);
+        return newGallery;
 
     }
 
@@ -69,6 +69,14 @@ public class GalleryService {
     }
 
     public void deleteGalleryById(long galleryId) {
-        galleryRepository.deleteById(galleryId);
+
+        GalleryEntity galleryEntity = galleryRepository.findById(galleryId).orElseThrow(
+                () -> new GalleryNotFoundException("Can't find gallery"));
+        Long userId = galleryEntity.getUser().getId();
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(
+                () -> new UsernameNotFoundException("Can't find User"));
+        List<GalleryEntity> galleries = userEntity.getGalleries();
+        galleries.remove(galleryEntity);
+        galleryRepository.delete(galleryEntity);
     }
 }

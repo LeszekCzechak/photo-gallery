@@ -22,7 +22,7 @@ class GalleryRepositoryTest {
     @Test
     @Sql(statements = {
             "INSERT INTO user_entity(user_id,password,username) VALUES (99,'$2a$10$flwjx8Bqss5SNktHaTFyIuuSpvBrAj8sEDpURwdjq1UgUrzeQh/la','TESTadmin')",
-            "INSERT INTO gallery_entity(id,gallery_name,user_user_id) values (615,'galleryName',99)"
+            "INSERT INTO gallery_entity(gallery_id,gallery_name,user_user_id) values (615,'galleryName',99)"
     })
     void shouldFindGalleryEntitiesByUserId() {
 

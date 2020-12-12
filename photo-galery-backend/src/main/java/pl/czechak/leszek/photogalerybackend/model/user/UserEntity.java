@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -38,8 +39,8 @@ public class UserEntity implements UserDetails {
     @Column
     private Set<UserRole> roles = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<GalleryEntity> galleries;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<GalleryEntity> galleries;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

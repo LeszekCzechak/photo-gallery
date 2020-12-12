@@ -18,6 +18,7 @@ public class GalleryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "gallery_id")
     private Long id;
 
     @Column
@@ -30,4 +31,9 @@ public class GalleryEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FileEntity> files;
 
+    public GalleryEntity(String galleryName, UserEntity user, List<FileEntity> files) {
+        this.galleryName = galleryName;
+        this.user = user;
+        this.files = files;
+    }
 }
