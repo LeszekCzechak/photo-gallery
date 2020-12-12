@@ -74,9 +74,9 @@ class GalleryControllerTest {
                 .andExpect(status()
                         .isOk());
 
-        ArgumentCaptor<Long> argumentCaptor= ArgumentCaptor.forClass(Long.class);
+        ArgumentCaptor<Long> argumentCaptor = ArgumentCaptor.forClass(Long.class);
         Mockito.verify(galleryService).getGalleryById(argumentCaptor.capture());
-        Long argumentCaptorValue= argumentCaptor.getValue();
+        Long argumentCaptorValue = argumentCaptor.getValue();
 
         assertThat(argumentCaptorValue.longValue()).isEqualTo(galleryId);
 
@@ -86,9 +86,9 @@ class GalleryControllerTest {
     @WithMockUser(username = "user", roles = "ADMIN")
     void shouldPassGalleryIdToDeleteGalleryById() throws Exception {
 
-        long galleryId= 48L;
+        long galleryId = 48L;
 
-        mockMvc.perform((delete("/gallery/"+galleryId)))
+        mockMvc.perform((delete("/gallery/" + galleryId)))
                 .andExpect(status().isNoContent());
         Mockito.verify(galleryService).deleteGalleryById(galleryId);
     }

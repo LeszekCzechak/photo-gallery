@@ -9,7 +9,7 @@ import pl.czechak.leszek.photogalerybackend.model.gallery.GalleryEntity;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 @DataJpaTest
@@ -31,7 +31,7 @@ class GalleryRepositoryTest {
         List<GalleryEntity> galleryEntityList = galleryRepository.findAllByUser_Id(99L);
 
         //then
-        assertEquals("galleryName",galleryEntityList.get(0).getGalleryName());
-        assertEquals("TESTadmin",galleryEntityList.get(0).getUser().getUsername());
+        assertEquals("galleryName", galleryEntityList.get(0).getGalleryName());
+        assertEquals("TESTadmin", galleryEntityList.get(0).getUser().getUsername());
     }
 }

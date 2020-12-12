@@ -114,7 +114,7 @@ class GalleryServiceTest {
         //when
         galleryService.deleteGalleryById(galleryId);
         //then
-        ArgumentCaptor<GalleryEntity> argumentCaptor= ArgumentCaptor.forClass(GalleryEntity.class);
+        ArgumentCaptor<GalleryEntity> argumentCaptor = ArgumentCaptor.forClass(GalleryEntity.class);
         Mockito.verify(galleryRepository).delete(argumentCaptor.capture());
         GalleryEntity argumentCaptorValue = argumentCaptor.getValue();
 

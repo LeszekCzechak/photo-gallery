@@ -39,7 +39,7 @@ public class GalleryService {
         UserEntity userEntity = userRepository.findById(galleryRequest.getUserId())
                 .orElseThrow(() -> new UsernameNotFoundException("can't find user"));
 
-        GalleryEntity newGallery = new GalleryEntity(galleryRequest.getGalleryName(), userEntity,new ArrayList<>());
+        GalleryEntity newGallery = new GalleryEntity(galleryRequest.getGalleryName(), userEntity, new ArrayList<>());
         userEntity.getGalleries().add(newGallery);
         userRepository.save(userEntity);
         return newGallery;

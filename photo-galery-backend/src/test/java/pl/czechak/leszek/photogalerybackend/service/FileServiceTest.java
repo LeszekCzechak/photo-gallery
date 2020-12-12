@@ -81,7 +81,7 @@ class FileServiceTest {
         String galleryName = "GalleryName";
         ArrayList<FileEntity> files = new ArrayList<>();
         GalleryEntity galleryEntity = new GalleryEntity(galleryId, galleryName, null, files);
-        FileEntity fileEntity = new FileEntity(fileId, bytes,contentType, galleryEntity);
+        FileEntity fileEntity = new FileEntity(fileId, bytes, contentType, galleryEntity);
         files.add(fileEntity);
 
         when(fileRepository.findById(fileId)).thenReturn(Optional.of(fileEntity));

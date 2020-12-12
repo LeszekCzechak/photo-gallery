@@ -94,7 +94,7 @@ class UserControllerTest {
     @Test
     void shouldCheckLoginStatus() throws Exception {
 
-        LoggedUser loggedUser= new LoggedUser("TestUsername");
+        LoggedUser loggedUser = new LoggedUser("TestUsername");
 
         when(userService.checkLoginStatus()).thenReturn(loggedUser);
 

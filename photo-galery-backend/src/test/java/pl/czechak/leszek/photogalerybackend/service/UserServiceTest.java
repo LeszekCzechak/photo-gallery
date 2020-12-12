@@ -147,7 +147,7 @@ class UserServiceTest {
 
         //given
         SecurityContextHolder.getContext().setAuthentication(authentication);
-          when(authentication.getName()).thenReturn("UserTest");
+        when(authentication.getName()).thenReturn("UserTest");
 
         //when
         LoggedUser loggedUser = userService.checkLoginStatus();

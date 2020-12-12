@@ -68,16 +68,16 @@ class FileControllerTest {
     @WithMockUser(username = "user", roles = "ADMIN")
     void shouldReturnFileById() throws Exception {
         //given
-        long fileId= 65L;
+        long fileId = 65L;
         byte[] bytes = new byte[]{123};
         String contentType = "text/plain";
 
-        FileEntity fileEntity = new FileEntity(fileId, bytes,contentType, null);
+        FileEntity fileEntity = new FileEntity(fileId, bytes, contentType, null);
 
         when(fileService.getFileEntity(fileId)).thenReturn(fileEntity);
 
         //when //then
-        mockMvc.perform(get("/files/"+fileId))
+        mockMvc.perform(get("/files/" + fileId))
                 .andDo(print())
                 .andExpect(status().isOk());
 

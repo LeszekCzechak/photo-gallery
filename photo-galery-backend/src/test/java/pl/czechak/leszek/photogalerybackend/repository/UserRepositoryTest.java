@@ -10,7 +10,7 @@ import pl.czechak.leszek.photogalerybackend.model.user.UserEntity;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 @DataJpaTest
@@ -22,12 +22,12 @@ class UserRepositoryTest {
 
     @Test
     @Sql(statements = "INSERT INTO user_entity(user_id,password,username) VALUES (996,'$2a$10$flwjx8Bqss5SNktHaTFyIuuSpvBrAj8sEDpURwdjq1UgUrzeQh/la','adminTest')")
-    void shouldFindOptionalOfUserEntityByUsername(){
+    void shouldFindOptionalOfUserEntityByUsername() {
 
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByUsername("adminTest");
 
-        assertEquals(996,optionalUserEntity.get().getId());
-        assertEquals("adminTest",optionalUserEntity.get().getUsername());
+        assertEquals(996, optionalUserEntity.get().getId());
+        assertEquals("adminTest", optionalUserEntity.get().getUsername());
 
         //AssertJ usage
         assertThat(optionalUserEntity.get().getId()).isEqualTo(996);
