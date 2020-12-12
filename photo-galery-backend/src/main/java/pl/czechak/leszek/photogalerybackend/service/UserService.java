@@ -104,6 +104,32 @@ public class UserService implements UserDetailsService {
                 .collect(Collectors.toList());
         return galleryResponses;
     }
+//    @Transactional
+//    public List<UserResponse> getAllUsers() {
+//
+//        return userRepository.findAll().stream()
+//                .map(userEntity -> UserEntityToUserResponseMapper(userEntity))
+//                .collect(Collectors.toList());
+//    }
+//
+//    private UserResponse UserEntityToUserResponseMapper(UserEntity userEntity) {
+//        List<GalleryResponse> galleryResponses = getGalleryResponses(userEntity);
+//        UserResponse userResponse = new UserResponse();
+//        userResponse.setUserId(userEntity.getId());
+//        userResponse.setUsername(userEntity.getUsername());
+//        userResponse.setGalleries(galleryResponses);
+//
+//        return userResponse;
+//    }
+//
+//    private List<GalleryResponse> getGalleryResponses(UserEntity userEntity) {
+//        return userEntity.getGalleries().stream()
+//                .map(galleryEntity -> {
+//                    GalleryResponse galleryResponse = new GalleryResponse(galleryEntity.getId(), galleryEntity.getGalleryName(), galleryEntity.getFiles().size());
+//                    return galleryResponse;
+//                })
+//                .collect(Collectors.toList());
+//    }
 
     public LoggedUser checkLoginStatus() {
         SecurityContext context = SecurityContextHolder.getContext();
