@@ -8,20 +8,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.czechak.leszek.photogalerybackend.dto.CreateUserRequest;
-import pl.czechak.leszek.photogalerybackend.dto.GalleryResponse;
-import pl.czechak.leszek.photogalerybackend.dto.LoggedUser;
-import pl.czechak.leszek.photogalerybackend.dto.UserResponse;
+import pl.czechak.leszek.photogalerybackend.dto.*;
 import pl.czechak.leszek.photogalerybackend.model.user.UserEntity;
 import pl.czechak.leszek.photogalerybackend.model.user.UserRole;
 import pl.czechak.leszek.photogalerybackend.repository.GalleryRepository;
 import pl.czechak.leszek.photogalerybackend.repository.UserRepository;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,20 +65,54 @@ public class UserService implements UserDetailsService {
     @Transactional
     public List<UserResponse> getAllUsers() {
 
-        return userRepository.findAll().stream()
-                .map(userEntity -> UserEntityToUserResponseMapper(userEntity))
+        List<UserComplexInfo> allUserComplexInfo = convertToUserComplexInfo(userRepository.getAllUserComplexInfo());
+        List<UserResponse> response = new ArrayList<>();
+        fillBasicallyUserResponseList(allUserComplexInfo, response);
+        addGalleryInfoToUserList(allUserComplexInfo, response);
+        return response;
+    }
+
+    private void fillBasicallyUserResponseList(List<UserComplexInfo> allUserComplexInfo, List<UserResponse> response) {
+        allUserComplexInfo.forEach(complexInfo -> {
+            Optional<UserResponse> any = response.stream().filter(user -> user.getUserId().equals(complexInfo.getUserId())).findAny();
+            if(any.isEmpty()){
+                response.add(new UserResponse(complexInfo.getUserId(), complexInfo.getUsername(), new ArrayList<>()));
+            }
+        });
+    }
+
+    private void addGalleryInfoToUserList(List<UserComplexInfo> allUserComplexInfo, List<UserResponse> response) {
+        allUserComplexInfo.forEach(complexInfo -> {
+            if (Objects.nonNull(complexInfo.getGalleryId())) {
+                response.stream()
+                        .filter(res -> res.getUserId().equals(complexInfo.getUserId()))
+                        .findFirst().get()
+                        .getGalleries()
+                        .add(new GalleryResponse(complexInfo.getGalleryId(), complexInfo.getGalleryName(), complexInfo.getGallerySize().intValue()));
+            }
+        });
+    }
+
+    private List<UserComplexInfo> convertToUserComplexInfo(List<Object[]> allUserComplexInfo) {
+        return allUserComplexInfo.stream()
+                .map(rawData -> new UserComplexInfo(
+                        (Long) rawData[0],
+                        (String) rawData[1],
+                        (Long) rawData[2],
+                        (String) rawData[3],
+                        (Long) rawData[4]))
                 .collect(Collectors.toList());
     }
 
-    private UserResponse UserEntityToUserResponseMapper(UserEntity userEntity) {
-        List<GalleryResponse> galleryResponses = getGalleryResponses(userEntity);
-        UserResponse userResponse = new UserResponse();
-        userResponse.setUserId(userEntity.getId());
-        userResponse.setUsername(userEntity.getUsername());
-        userResponse.setGalleries(galleryResponses);
-
-        return userResponse;
-    }
+//    private UserResponse UserEntityToUserResponseMapper(UserEntity userEntity) {
+//        List<GalleryResponse> galleryResponses = getGalleryResponses(userEntity);
+//        UserResponse userResponse = new UserResponse();
+//        userResponse.setUserId(userEntity.getId());
+//        userResponse.setUsername(userEntity.getUsername());
+//        userResponse.setGalleries(galleryResponses);
+//
+//        return userResponse;
+//    }
 
     private List<GalleryResponse> getGalleryResponses(UserEntity userEntity) {
         return userEntity.getGalleries().stream()
