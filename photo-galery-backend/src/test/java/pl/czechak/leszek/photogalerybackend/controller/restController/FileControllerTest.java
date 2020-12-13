@@ -45,7 +45,7 @@ class FileControllerTest {
                 MediaType.TEXT_PLAIN_VALUE,
                 "Hello, World!".getBytes()
         );
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/files/1")
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/gallery/1/files")
                 .file(multipartFile))
                 .andDo((print()))
                 .andExpect(status().isNoContent());

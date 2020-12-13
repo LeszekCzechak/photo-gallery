@@ -10,7 +10,6 @@ import pl.czechak.leszek.photogalerybackend.service.FileService;
 
 
 @RestController
-@RequestMapping("/files")
 public class FileController {
 
     private final FileService fileService;
@@ -19,19 +18,19 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    @PostMapping("/{galleryId}")
+    @PostMapping("/gallery/{galleryId}/files")
     public ResponseEntity<Void> addFileToGallery(@PathVariable long galleryId, MultipartFile multipartFile) {
         fileService.addFileToGallery(galleryId, multipartFile);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{fileId}")
+    @DeleteMapping("/files/{fileId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteFile(@PathVariable("fileId") long id) {
         fileService.deleteFile(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/files/{id}")
     public ResponseEntity<byte[]> getById(@PathVariable long id) {
 
         FileEntity file = fileService.getFileEntity(id);

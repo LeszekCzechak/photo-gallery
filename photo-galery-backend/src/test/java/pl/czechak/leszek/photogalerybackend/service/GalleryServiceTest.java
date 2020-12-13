@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 
@@ -55,6 +56,7 @@ class GalleryServiceTest {
         Optional<UserEntity> optionalUserEntity = Optional.of(userEntity);
 
         when(userRepository.findById(userId)).thenReturn(optionalUserEntity);
+        when(userRepository.save(userEntity)).thenReturn(userEntity);
 
         //when
         GalleryEntity gallery = galleryService.createGallery(galleryRequest);

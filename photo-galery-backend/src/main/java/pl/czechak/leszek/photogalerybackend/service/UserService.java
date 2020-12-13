@@ -44,6 +44,7 @@ public class UserService implements UserDetailsService {
     }
 
 
+    @Transactional
     public void createUser(CreateUserRequest userRequest) {
 
         UserEntity newUserEntity = new UserEntity();
@@ -61,6 +62,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(newUserEntity);
     }
 
+    @Transactional
     public void deleteUser(long userId) {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         userRepository.delete(userEntity);

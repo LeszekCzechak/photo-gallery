@@ -16,7 +16,6 @@ import pl.czechak.leszek.photogalerybackend.util.UserContext;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class GalleryService {
@@ -41,8 +40,8 @@ public class GalleryService {
 
         GalleryEntity newGallery = new GalleryEntity(galleryRequest.getGalleryName(), userEntity, new ArrayList<>());
         userEntity.getGalleries().add(newGallery);
-        userRepository.save(userEntity);
-        return newGallery;
+        UserEntity save = userRepository.save(userEntity);
+        return save.getGalleries().get(save.getGalleries().size()-1);
 
     }
 
@@ -68,6 +67,7 @@ public class GalleryService {
 
     }
 
+    @Transactional
     public void deleteGalleryById(long galleryId) {
 
         GalleryEntity galleryEntity = galleryRepository.findById(galleryId).orElseThrow(
